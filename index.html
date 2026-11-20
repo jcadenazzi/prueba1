@@ -1,0 +1,758 @@
+.
+<!doctype html>
+<html lang="es">
+<head>
+	<title>Capacitación Nodocente</title>
+	<!-- <meta charset="UTF-8"> -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- <meta name="viewport" content="width=device.width,user-scalable=no initial-scale=1,maximun-scale=1,minimum-scale=1"> -->
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<!-- <link href="./auxiliar/pa.css" rel="stylesheet" type="text/css"> -->
+	<link href="../css/style.css" rel="stylesheet" type="text/css">
+	<link href="../css/responsive.css?v=<?php echo(rand()); ?>" rel="stylesheet" type="text/css" > 
+	<script type="text/javascript" src="../jq/jquery-3.1.1.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="../sweetalert2/dist/sweetalert2.all.min.js"></script>
+	<style type="text/css">
+		.contenedor_diagnostico{
+			display: grid;
+			grid-template-columns: 1fr 3fr;
+			gap: 15px;
+			padding:10px;
+		}
+		.diagnostico {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			/* Fondo y dimensiones */
+			background-color: #ffffff;
+			border-radius: 12px; /* Controla qué tan redondeados son los bordes */
+			padding: 20px;
+			/*max-width: 350px;*/
+
+			/* Sombra elegante y suave */
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+			/* Transición suave para el efecto hover */
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		/* Efecto opcional: La tarjeta se eleva ligeramente al pasar el cursor */
+		.diagnostico:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+		}
+
+		.diagnostico img{
+			max-width: 95%;
+			width: 100%;
+			height: auto;
+		}
+		.diagnostico h2{
+			width: 100%;
+			text-align: center;
+			font-size: 1.3em;
+			font-weight: 600;
+			color: var(--color-rojomun);
+			padding: 10px;
+		}
+		.diagnostico p{
+			width: 100%;
+			color: #0c0c0c;
+			font-size: 1.1em;
+			/*font-weight: 200;*/
+			padding: 10px;
+			text-align: justify;
+			word-spacing: 0.05em;
+			text-justify: inter-word;
+
+		}
+		.diagnostico ul{
+			width: 100%;
+			margin-left: 10px;
+			padding:10px;
+		}
+
+		.diagnostico button{
+			font-size: 1em;
+			background-color: var(--color-rojomun);
+			color:#ffffff;
+			border-radius: 10px;
+			padding: 15px;
+			cursor: pointer;
+			border: none;
+		}
+		.diagnostico a{
+			font-size: 1em;
+			background-color: var(--color-principal);
+			color:#ffffff;
+			border-radius: 10px;
+			padding: 15px;
+			cursor: pointer;
+			border: none;
+			text-decoration: none;
+		}
+		.hojaalmanaque{
+			display:grid;
+			width: 100%;
+			grid-template-columns: 1fr 2fr;
+			grid-gap: 5px;
+			background-color: var(--color-gris-claro);
+			/*background-color: green;*/
+			padding:10px;
+
+		}
+		.menu_autogestion {
+			position: absolute;
+			top: 50px;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			background: var(--color-principal); /*rgba(0,119,176,0.9);*/
+			transition: all 0.5s;
+			transform: translateX(-100%);
+			margin-right: 10px;
+		}
+
+		.menu_autogestion a {
+			display: block;
+			color: #fff;
+			height: 50px;
+			text-decoration: none;
+			padding: 15px;
+			border-bottom: 1px solid rgba(255,255,255,0.3);
+		}
+
+		.menu_autogestion a:hover {
+			background: rgba(255,255,255,0.3);
+		}
+
+		/*
+		#botonerappal{
+			position:relative;
+			margin-top:80;
+		}
+		
+		#banner {
+			margin-top: 100p
+			position: relative;
+			
+			
+		}
+		*/
+		.loader {
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                background: url('img/espera.gif') 50% 50% no-repeat rgb(249,249,249);
+                opacity: .8;
+            }
+			/*
+			p {
+				font-family: 'Roboto', sans-serif;
+				font-size: .8rem;
+			}
+				*/
+			ul {
+				list-style: none;
+			}
+			aside.tarjeta li {
+				list-style: none;
+			}
+			#cronograma{
+				display:grid;
+				grid-template-columns: 1fr 4fr;
+				width: 100%;
+				gap: 5px;
+			}
+			#cronograma .anios{
+				display: flex;
+				flex-flow: column;
+				column-gap: 10px;
+				align-content: center;
+				justify-content: start;
+				font-size: 1.5em;
+				/*background-color:antiquewhite;*/
+				text-align: center;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				
+				
+
+			}
+			.indice{
+				text-align: center;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				border-bottom: 1px solid black;
+				cursor:pointer ;
+				
+
+			}
+			.ind_activo{
+				font-size: 1.5em;
+				color:white;
+				background-color:var(--color-rojomun);
+				text-align: center;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				border-bottom: 1px solid black;
+				cursor:pointer ;
+
+			}
+			.container {
+				max-width: 1024px;
+				width: 100%;
+				margin: 0 auto;
+				
+				
+			}
+			.cuerpo nav{
+				display: flex;
+				flex-direction: row;
+				/*align-items: start;*/
+				align-items: center;
+				justify-content: center;
+								background-color: var(--color-rojooscuro);
+				font-size: 1.17em;
+				color:white;
+				width: 1000px;
+				margin:0 auto;
+
+			}
+			.cuerpo a{
+				
+				text-decoration: none;
+				cursor: pointer;
+				
+				padding:10px;
+				text-align: center;
+				
+
+			}
+			.ag_opcion{
+				font-family: Arial, Helvetica, sans-serif;
+				font-weight: bold;
+				font-style: normal;
+				font-size: 1.17em;
+				background-color: var(--color-gris-claro);
+				color:black;
+				width: 30%;
+				border: 1px solid black;
+			}
+			.activo{
+				background-color: var(--color-rojomun);
+				color:white; /*var(--color-rojomun);*/
+
+			}
+
+			.tarjeta{
+				background-color: #0c0c0c !important;
+				border-radius: 10px;
+			}
+			.cuerpo a:hover{
+				/*font-size:1.7em;*/
+				background-color: var(--color-gris-claro);
+				color:var(--color-rojomun);
+			}
+			
+			/*
+			$border-color: rgba(black, .3);
+			*/
+			.timeline-item {
+				padding: 3em 2em 2em;
+				position: relative;
+				color: var(--color-rojomun); /*rgba(black, .7);*/
+				border-left: 2px solid var(--color-rojomun); /*rgba(black, .3);*/
+				
+				p {
+					font-size: 1rem;
+				}
+				
+				&::before {
+					content: attr(date-is);
+					position: absolute;
+					left: 2em;
+					font-weight: bold;
+					top: 1em;
+					display: block;
+					font-family: 'Roboto', sans-serif;
+					font-weight: 700;
+					font-size: .785rem;
+				}
+
+				&::after {
+					width: 10px;
+					height: 10px;
+					display: block;
+					top: 1em;
+					position: absolute;
+					left: -7px;
+					border-radius: 10px;
+					content: '';
+					border: 2px solid var(--color-rojomun); /*rgba(black, .3);*/
+					background: var(--color-celestemun); /*white;*/
+				}
+
+				&:last-child {
+					/*
+					border-image: linear-gradient(
+						to bottom,
+						rgba(187,10,18, .3) 60%,
+						rgba(187,10,18, .3),40%) 
+					;
+					
+					border-image: linear-gradient(
+						to bottom,
+						red     0% 20%,
+						orange 20% 40%,
+						yellow 40% 100%,
+						
+					);
+					*/
+					border-image: linear-gradient(
+						to bottom,
+						red,
+						rgba(0,0,0,.3)
+					) 1 100%;
+				}
+			}
+			.sin_certificado{
+				width:90%;
+				margin:0 auto;
+				text-align: center;
+				
+				border-radius: 5px;
+				border-top: 1px solid var(--color-gris-claro);
+				border-left: 1px solid var(--color-gris-claro);
+				border-bottom: 4px solid var(--color-gris-claro);
+				border-right: 4px solid var(--color-gris-claro);
+				padding:20px,
+			}
+
+			@media screen and (max-width: 800px) {
+				.cuerpo{
+					width:100%;
+				}
+				.cuerpo nav{
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					background-color: var(--color-rojooscuro);
+					font-size: 1em;
+					color:white;
+					width: 100%;
+					margin:0 auto;
+
+				}
+				.cuerpo a{
+					
+					text-decoration: none;
+					cursor: pointer;
+					
+					font-size: 1em;
+					font-family: Arial, Helvetica, sans-serif;
+					font-weight: bold;
+					font-style: normal;
+					padding:10px;
+
+				}
+				.container{
+					width: 100%;
+				}
+				#cronograma{
+					display:grid;
+					grid-template-columns: 1fr 5fr;
+					width: 100%;
+				}
+				#cronograma .anios{
+					display: flex;
+					flex-flow: column;
+					column-gap: 5px;
+					align-content: center;
+					justify-content: start;
+					font-size: 1em;
+					/*background-color:antiquewhite;*/
+					text-align: center;
+					padding-top: 10px;
+					padding-bottom: 10px;
+					
+					
+
+				}
+				.indice{
+					text-align: center;
+					padding-top: 10px;
+					padding-bottom: 10px;
+					border-bottom: 1px solid black;
+					cursor:pointer ;
+					
+
+				}
+				.ind_activo{
+					font-size: 1.1em;
+					color:white;
+					background-color:var(--color-rojomun);
+					text-align: center;
+					padding-top: 10px;
+					padding-bottom: 10px;
+					border-bottom: 1px solid black;
+					cursor:pointer ;
+
+				}
+				.contenedor_diagnostico {
+        display: flex;
+        flex-direction: column-reverse; /* Las apila en vertical y les invierte el orden automáticamente */
+    }
+
+			}
+
+	</style>
+
+    <script type="text/javascript">
+		$(window).load(function() {
+            $(".loader").fadeOut("slow");
+        });
+		function Procesando()
+		{
+			document.getElementById("espera").style.display = 'block';
+			document.getElementById("contenido").style.display = 'none';
+		    return true; 
+		}
+
+		function DatosCargados()
+		{
+			//document.getElementById("botonA").value= 4;
+			//alert (document.getElementById("action").value);
+			if (document.getElementById("dni").value.length==0 )
+			{
+				alert("El DNI no puede estar vacio");
+				document.getElementById("dni").focus();
+				return false;
+			}
+
+			if (document.getElementById("apellido").value.length==0 )
+			{
+				alert("El APELLIDO no puede estar vacio");
+				document.getElementById("apellido").focus();
+				return false;
+			}
+			if (document.getElementById("nombre").value.length==0 )
+			{
+				alert("El NOMBRE no puede estar vacio");
+				document.getElementById("nombre").focus();
+				return false;
+			}
+            //Procesando();
+			document.getElementById("preinscripcion").submit();
+			return true;
+		}
+
+		function IgualaFecha()
+		{
+			document.getElementById("hasta").value = document.getElementById("desde").value;
+			return true;
+		}
+
+		function Verificar(){
+			
+			//dni=document.getElementById("dni").value;
+			recuperador=document.getElementById("verificador");
+			recuperador.click();
+			document.getElementById("legajo").focus();
+			
+			return true;
+			}
+
+		function AnularInscripcion(dni,curso,nombre){
+			
+			Swal.fire({
+				title: "Anulará preinscripción a curso :",
+				text: nombre,
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "<span class=i-trash> Si, anular! </span>",
+				cancelButtonText: "<span class=i-reply> No</span>",
+				}).then((result) => {
+				if (result.isConfirmed) {
+					$(".loader").fadeIn("slow");
+
+					$.ajax({
+						type: "POST", // here used post method
+						url: "ax/ax_autogestion.php",//php file where retrive the post value and fetch all the matched item from database
+						dataType: "json",
+						data:{"actividad":"CANCELARINSCRIPCION","agente":dni,"evento":curso},//$("#dni").val(),//send data or search term to readname file to process
+						beforeSend: function(){
+							// show loader icon
+						// $("#dni").css("background","#FFF url(./img/espera.gif) no-repeat 175px");
+						//console.log('Dni '+miDni);
+						//console.log('Afiliados ' +miAfiliados);
+						$("#espera").show();
+						},
+						success: function(response){
+							// get the output from database on success
+							$("#espera").hide();
+							$(".loader").fadeOut("slow");
+							if(response.status==1){
+								$("#inscrip_"+curso).hide();
+								
+								Swal.fire({
+									title: "Cancela!",
+									text: "Tu preinscripción ha sido anulada correctamente.",
+									icon: "success"
+								});	
+							}
+							if(response.status==0){
+								
+								Swal.fire({
+									icon: 'error',
+									confirmButtonColor:'red',
+									confirmButtonText: "<span class=i-home> Finalizar!</span>",
+									title:"Error.....!!",
+									html: response.mensaje,
+									
+									}).then(() => {								
+										window.location.replace("index.php");
+									});
+							}
+
+						},
+						error: function(error){
+							alert("Hubo un error interno, intente mas tarde");
+							console.log(error);
+							//window.location.replace("index.php");
+						}
+					});
+					
+
+					
+
+					
+				}
+			});
+
+			
+
+		}
+
+		function Preinscripciones(dni){
+			$('.ag_opcion').removeClass('activo');
+			$('#btn_m_2').addClass('activo');
+			$.ajax({
+				type: "POST", // here used post method
+				url: "ax/ax_autogestion.php",//php file where retrive the post value and fetch all the matched item from database
+				dataType: "json",
+				data:{"actividad":"PREINSCRIPCIONES","agente":dni},//$("#dni").val(),//send data or search term to readname file to process
+				beforeSend: function(){
+					// show loader icon
+				// $("#dni").css("background","#FFF url(./img/espera.gif) no-repeat 175px");
+				//console.log('Dni '+miDni);
+				//console.log('Afiliados ' +miAfiliados);
+					$("#espera").show();
+					$(".loader").fadeIn("slow");
+				},
+				success: function(response){
+					// get the output from database on success
+					$("#espera").hide();
+					$(".loader").fadeOut("slow");
+					if(response.status==1){
+						$("#contenido").html(response.cuerpo);
+						
+						
+					}
+					if(response.status==0){
+						
+						Swal.fire({
+							icon: 'error',
+							confirmButtonColor:'red',
+							confirmButtonText: "<span class=i-home> Finalizar!</span>",
+							title:"Error.....!!",
+							html: response.mensaje,
+							
+							});
+					}
+
+				},
+				error: function(error){
+					$(".loader").fadeOut("slow");
+					alert("Hubo un error interno, intente mas tarde");
+					console.log(error);
+					//window.location.replace("index.php");
+				}
+			});
+		}
+
+		function Certificados(dni){
+			$('.ag_opcion').removeClass('activo');
+			$('#btn_m_3').addClass('activo');
+			$.ajax({
+				type: "POST", // here used post method
+				url: "ax/ax_autogestion.php",//php file where retrive the post value and fetch all the matched item from database
+				dataType: "json",
+				data:{"actividad":"CERTIFICADOS","agente":dni},//$("#dni").val(),//send data or search term to readname file to process
+				beforeSend: function(){
+					// show loader icon
+				// $("#dni").css("background","#FFF url(./img/espera.gif) no-repeat 175px");
+				//console.log('Dni '+miDni);
+				//console.log('Afiliados ' +miAfiliados);
+					$("#espera").show();
+					$(".loader").fadeIn("slow");
+				},
+				success: function(response){
+					// get the output from database on success
+					$("#espera").hide();
+					
+					if(response.status==1){
+						$("#contenido").html(response.cuerpo);
+						$(".loader").fadeOut("slow");
+						
+					}
+					if(response.status==0){
+						$(".loader").fadeOut("slow");
+						Swal.fire({
+							icon: 'error',
+							confirmButtonColor:'red',
+							confirmButtonText: "<span class=i-home> Finalizar!</span>",
+							title:"Error.....!!",
+							html: response.mensaje,
+							
+							});
+					}
+
+				},
+				error: function(error){
+					$(".loader").fadeOut("slow");
+					alert("Hubo un error interno, intente mas tarde");
+					console.log(error);
+					//window.location.replace("index.php");
+				}
+			});
+		}
+
+		function FiltrarCertificados(dni,anio){
+			$.ajax({
+				type: "POST", // here used post method
+				url: "ax/ax_autogestion.php",//php file where retrive the post value and fetch all the matched item from database
+				dataType: "json",
+				data:{"actividad":"FILTRAR","agente":dni,"anio":anio},//$("#dni").val(),//send data or search term to readname file to process
+				beforeSend: function(){
+					// show loader icon
+				// $("#dni").css("background","#FFF url(./img/espera.gif) no-repeat 175px");
+				//console.log('Dni '+miDni);
+				//console.log('Afiliados ' +miAfiliados);
+					$("#espera").show();
+					$(".loader").fadeIn("slow");
+				},
+				success: function(response){
+					// get the output from database on success
+					$("#espera").hide();
+					
+					if(response.status==1){
+						$("#marco").html(response.cuerpo);
+						$('.indice').removeClass('ind_activo');
+						$('#anio_'+anio).addClass('ind_activo');
+						
+						
+					}
+					if(response.status==0){
+						
+						Swal.fire({
+							icon: 'error',
+							confirmButtonColor:'red',
+							confirmButtonText: "<span class=i-home> Finalizar!</span>",
+							title:"Error.....!!",
+							html: response.mensaje,
+							
+							});
+					}
+					$(".loader").fadeOut("slow");
+
+				},
+				error: function(error){
+					$(".loader").fadeOut("slow");
+					alert("Hubo un error interno, intente mas tarde");
+					console.log(error);
+					//window.location.replace("index.php");
+				}
+			});
+		}
+		function enviar_formulario(formulario){
+			objeto=document.getElementById(formulario);
+			objeto.submit();
+		}
+	</script>	
+
+	
+</head>
+<body>
+
+
+<!-- <div class="contenedorppal"> -->
+	<header>
+		<div class="contenedor" >
+			<!-- <h1 > AGTUNC - Gremial San Martin</h1> -->
+			 
+			<div id=unc >
+				<!-- <a href= "./" style='color:white;text-decoration:none;'><span class=i-home style='font-size:20px;color:white;float:left;'> Inicio </span> </a> -->
+				<img src="../img/logoUNCsmall.png" onClick="window.location.href='./'">
+			</div>
+			<div id=gremio ><img src="../img/logoAgtunc.png" onClick="window.location.href='./'" style='float:right;'></div> 
+		</div>
+	</header>
+	<div class=loader> </div>
+	<main>
+		
+		<section id="banner" >
+				<!-- <img src="./img/gremio_apaisada.png">   -->
+				<img src="../img/bannerrojo.png" alt='Banner Principal'>  
+				<div class="contenedor">
+					<h2 style='text-align:center;'> Capacitación Nodocente </h2>
+					<p style='text-align:center;'> Comisión Paritaria Particular</p>
+					
+				</div>
+				
+		</section>
+		
+		
+ 
+	
+		
+		<section >
+			<div class=contenedor_diagnostico>
+				<div class=diagnostico>
+					 <img src="../img/svg/reportedatos.svg" alt="diagnostico">
+					<!-- <h2 style='background-color:var(--color-azulmun);color:var(--color-celestemun);padding:5px;'><span class='i-calendar'> </span> Preinscripciones Vigentes: </h2> -->
+				</div>
+				<div class=diagnostico>
+					 <h2 > Diagnóstico de necesidades de capacitación Nodocente </h2>
+					 <p>En el marco del Acta Paritaria Nº 72, la Universidad Nacional de Córdoba y la Asociación "Gremial San Martín" (AGTUNC) invitan al personal <strong>Nodocente</strong> a participar de este diagnóstico destinado a identificar las necesidades de capacitación
+						y orientar futuras propuestas formativas, considerando las competencias requeridas en los distintos ámbitos de trabajo. </p>
+					<p>Tu participación es fundamental para fortalecer la formación y el trabajo <strong>Nodocente</strong>.</p>
+					<ul>
+						<li><span class='i-calendar' style="color:var(--color-rojooscuro);"> </span> <strong> FECHA:</strong> disponible del 1/11/2026 al 30/11/2026.</li>
+						<li><span class='i-mail' style="color:var(--color-rojooscuro);"> </span><strong>IMPORTANTE!! </strong> Antes de ingresar al cuestionario, tenés que iniciar sesión en tu correo electrónico UNC, ó autenticarte con tu Usuario UNC </li>
+					</ul>
+					<a href="https://tinyurl.com/nodocentes-capacitacion"> Cuestionario </a>
+				</div>
+			</div>
+			
+		</section>
+	
+	<footer>
+			<div class="contenedor">
+				
+				<p class="copy">AGTUNC &copy; 2026</p>
+
+				
+			</div>
+	</footer>
+<!-- </div> -->
+			</main>
+</body>
+</html
